@@ -11,6 +11,6 @@ Practica1
 
 Integrantes:
 
-201114056	Robinson  Jonathan Perez Fuentes
+201114056	Robinson  Jonathan Pérez Fuentes
 
 201114490	Luis Ricardo Hernàndez
