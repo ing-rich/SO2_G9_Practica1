@@ -18,18 +18,22 @@ import (
 //estructura memoria RAM
 type usoRAM struct {
 	Total      int `json:"Mem_Total"`
-	Consumida  int `json:"Mem_Consumida"`
-	Porcentaje int `json:"Mem_porcentaje"`
+	Consumida  int `json:"Consumida"`
+	Libre      int `json:"Mem_libre"`
+	Buffer     int `json:"Buffer"`
+	Compartida int `json:"Compartida"`
 }
 
 //estructura de lista de procesos
 type listProceso struct {
-	ProcesosTotal       int       `json:"ProcesosTotal"`
-	ProcesosEjecucion   int       `json:"ProcesosEjecucion"`
-	ProcesosSuspendidos int       `json:"ProcesosSuspendidos"`
-	ProcesosDetenidos   int       `json:"ProcesosDetenidos"`
-	ProcesosZombies     int       `json:"ProcesosZombie"`
-	Lista               []Proceso `json:"Lista"`
+	Lista                []Proceso `json:"Lista"`
+	MemoriaTotal         int       `json:"MemoriaTotal"`
+	ProcesosTotal        int       `json:"ProcesosTotal"`
+	ProcesosEjecucion    int       `json:"ProcesosEjecucion"`
+	ProcesosSuspendidos  int       `json:"ProcesosSustendido"`
+	ProcesosDetenidos    int       `json:"ProcesosDetenidos"`
+	ProcesosZombies      int       `json:"ProcesosZombie"`
+	ProcesosDesconocidos int       `json:"ProcesosDesconocidos"`
 }
 
 //estructura de los Procesos
