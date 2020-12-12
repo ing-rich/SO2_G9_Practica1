@@ -16,33 +16,33 @@ import (
 )
 
 //estructura memoria RAM
-type usoRAM struct {
+type UtilizacionR struct {
 	Total      int `json:"Mem_Total"`
-	Consumida  int `json:"Consumida"`
-	Libre      int `json:"Mem_libre"`
+	Libre      int `json:"Mem_Libre"`
 	Buffer     int `json:"Buffer"`
 	Compartida int `json:"Compartida"`
+	Consumida  int `json:"Consumida"`
 }
 
 //estructura de lista de procesos
-type listProceso struct {
+type ListProceso struct {
 	Lista                []Proceso `json:"Lista"`
 	MemoriaTotal         int       `json:"MemoriaTotal"`
 	ProcesosTotal        int       `json:"ProcesosTotal"`
 	ProcesosEjecucion    int       `json:"ProcesosEjecucion"`
-	ProcesosSuspendidos  int       `json:"ProcesosSustendido"`
+	ProcesosSuspendido   int       `json:"ProcesosSustendido"`
 	ProcesosDetenidos    int       `json:"ProcesosDetenidos"`
-	ProcesosZombies      int       `json:"ProcesosZombie"`
+	ProcesosZombie       int       `json:"ProcesosZombie"`
 	ProcesosDesconocidos int       `json:"ProcesosDesconocidos"`
 }
 
-//estructura de los Procesos
+//Proceso de la estructura
 type Proceso struct {
 	PID     string    `json:"PID"`
 	Nombre  string    `json:"Nombre"`
+	Memoria string    `json:"Memoria"`
 	Usuario string    `json:"Usuario"`
 	Estado  string    `json:"Estado"`
-	Memoria string    `json:"Memoria"`
 	Hijos   []Proceso `json:"Hijos"`
 }
 
@@ -91,7 +91,7 @@ func reader(conn *websocket.Conn) {
 	for {
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
-			log.Printf("error: %v", err)
+			log.Printf("Error socket: %v", err)
 			delete(clients, conn)
 			break
 		}
@@ -150,28 +150,28 @@ func enviarDatos() {
 	}
 }
 
-func getCPU() *listProceso {
+func getCPU() *ListProceso {
 	data, err := ioutil.ReadFile("/proc/cpu_grupo9")
 	if err != nil {
-		fmt.Println("Error leyendo el archivo de cpu", err)
+		fmt.Println("File reading error", err)
 		return nil
 	}
 	strData := string(data)
-	listaProcess := listProceso{}
+	listaProcess := ListProceso{}
 	json.Unmarshal([]byte(strData), &listaProcess)
 	listaProcess.setNombresUsuario()
 	return &listaProcess
 }
 
-func getRAM() *usoRAM {
+func getRAM() *UtilizacionR {
 	data, err := ioutil.ReadFile("/proc/m_grupo9")
 	if err != nil {
-		fmt.Println("Error leyendo el archivo de la memoria", err)
+		fmt.Println("File reading error", err)
 		return nil
 	}
 	strData := string(data)
 	fmt.Println(strData)
-	infoMem := usoRAM{}
+	infoMem := UtilizacionR{}
 	json.Unmarshal([]byte(strData), &infoMem)
 	fmt.Println(infoMem)
 	return &infoMem
@@ -192,7 +192,7 @@ func (dato *Proceso) setNombreUsuario() {
 	}
 }
 
-func (obj *listProceso) setNombresUsuario() {
+func (obj *ListProceso) setNombresUsuario() {
 	for i := range obj.Lista {
 		obj.Lista[i].setNombreUsuario()
 	}
