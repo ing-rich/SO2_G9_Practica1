@@ -6,8 +6,11 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -104,19 +107,49 @@ func enviarDatos() {
 			log.Println(value)
 			if value == "PRINCIPAL" {
 				//---INDEX---
-				lista_procesos := getCPU()
-				if lista_procesos != nil {
-
+				listaProcess := getCPU()
+				if listaProcess != nil {
+					errW := client.WriteJSON(listaProcess)
+					if errW != nil {
+						log.Printf("error: %v", errW)
+						client.Close()
+						delete(clients, client)
+					}
 				}
+			} else if value == "RAM" {
+				//----RAM----
+				ram := getRAM()
+				if ram != nil {
+					errW := client.WriteJSON(ram)
+					if errW != nil {
+						log.Printf("Error: %v", errW)
+						client.Close()
+						delete(clients, client)
+					}
+				}
+			} else {
+				clients[client] = "PRINCIPAL"
+				if i, err := strconv.Atoi(value); err == nil {
+					proc, err := os.FindProcess(i)
+					if err != nil {
+						log.Println(err)
+					}
+					proc.Kill()
+					log.Println("se elimino el proceso")
+				}
+				continue
 			}
 		}
+		fmt.Println(len(clients))
+		log.Printf("*******")
+		time.Sleep(2000 * time.Millisecond)
 	}
 }
 
 func getCPU() *listProceso {
 	data, err := ioutil.ReadFile("/proc/cpu_grupo9")
 	if err != nil {
-		fmt.Println("Error leyendo el archivo", err)
+		fmt.Println("Error leyendo el archivo de cpu", err)
 		return nil
 	}
 	strData := string(data)
@@ -124,6 +157,20 @@ func getCPU() *listProceso {
 	json.Unmarshal([]byte(strData), &listaProcess)
 	listaProcess.setNombresUsuario()
 	return &listaProcess
+}
+
+func getRAM() *usoRAM {
+	data, err := ioutil.ReadFile("/proc/m_grupo9")
+	if err != nil {
+		fmt.Println("Error leyendo el archivo de la memoria", err)
+		return nil
+	}
+	strData := string(data)
+	fmt.Println(strData)
+	infoMem := usoRAM{}
+	json.Unmarshal([]byte(strData), &infoMem)
+	fmt.Println(infoMem)
+	return &infoMem
 }
 
 func (dato *Proceso) setNombreUsuario() {
