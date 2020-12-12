@@ -1,9 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os/exec"
+	"strings"
 
 	"github.com/gorilla/websocket"
 )
@@ -16,13 +20,13 @@ type usoRAM struct {
 }
 
 //estructura de lista de procesos
-type listaProcesos struct {
+type listProceso struct {
 	ProcesosTotal       int       `json:"ProcesosTotal"`
 	ProcesosEjecucion   int       `json:"ProcesosEjecucion"`
 	ProcesosSuspendidos int       `json:"ProcesosSuspendidos"`
 	ProcesosDetenidos   int       `json:"ProcesosDetenidos"`
 	ProcesosZombies     int       `json:"ProcesosZombie"`
-	Procesos            []Proceso `json:"Lista"`
+	Lista               []Proceso `json:"Lista"`
 }
 
 //estructura de los Procesos
@@ -37,6 +41,7 @@ type Proceso struct {
 
 //variables globales
 var clients = make(map[*websocket.Conn]string)
+var listUsers = make(map[string]string)
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -47,7 +52,10 @@ func main() {
 	// routes
 	http.HandleFunc("/", serveFiles)
 	http.HandleFunc("/ws", serveWs)
+
+	go enviarDatos()
 	//start the server
+	fmt.Println("servidor iniciado en el puerto 3000")
 	http.ListenAndServe(":3000", nil)
 }
 
@@ -86,5 +94,55 @@ func reader(conn *websocket.Conn) {
 			log.Println(err)
 			return
 		}
+	}
+}
+
+func enviarDatos() {
+	for {
+		for client := range clients {
+			var value string = clients[client]
+			log.Println(value)
+			if value == "PRINCIPAL" {
+				//---INDEX---
+				lista_procesos := getCPU()
+				if lista_procesos != nil {
+
+				}
+			}
+		}
+	}
+}
+
+func getCPU() *listProceso {
+	data, err := ioutil.ReadFile("/proc/cpu_grupo9")
+	if err != nil {
+		fmt.Println("Error leyendo el archivo", err)
+		return nil
+	}
+	strData := string(data)
+	listaProcess := listProceso{}
+	json.Unmarshal([]byte(strData), &listaProcess)
+	listaProcess.setNombresUsuario()
+	return &listaProcess
+}
+
+func (dato *Proceso) setNombreUsuario() {
+	if listUsers[dato.Usuario] == "" {
+		cmd, err := exec.Command("bash", "-c", "getent passwd "+dato.Usuario+" | cut -d: -f1").Output()
+		if err != nil {
+			log.Fatal(err)
+		}
+		dato.Usuario = strings.Trim(string(cmd[:]), " \n")
+	} else {
+		dato.Usuario = listUsers[dato.Usuario]
+	}
+	for i := range dato.Hijos {
+		dato.Hijos[i].setNombreUsuario()
+	}
+}
+
+func (obj *listProceso) setNombresUsuario() {
+	for i := range obj.Lista {
+		obj.Lista[i].setNombreUsuario()
 	}
 }
