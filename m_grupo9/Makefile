@@ -1,4 +1,4 @@
-obj-m += mem_grupo9.o
+obj-m += m_grupo9.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
