@@ -115,7 +115,7 @@ func enviarDatos() {
 				if listaProcess != nil {
 					errW := client.WriteJSON(listaProcess)
 					if errW != nil {
-						log.Printf("error: %v", errW)
+						log.Printf("Error: %v", errW)
 						client.Close()
 						delete(clients, client)
 					}
