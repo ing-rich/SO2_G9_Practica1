@@ -52,9 +52,45 @@ source ~/.profile
 ```
 
 Despues de haber instalado todo lo anterior ya podremos compilar los archivos del proyecto y ejecutarlo para su uso
-### Proyecto
+### Compilar Modulos de Kernel
+Es necesario compilar los modulos de kernel, ya que estos crearan los archivos con los datos del cpu y la memoria, para esto debemos ubicarnos en la carpeta que contenga el archivo makefile y la clase .c
+```sh
+$ cd /m_grupo9
+```
+Una vez dentro de la carpeta se aconseja primero utilizar el comando sudo su y luego make
+```sh
+$ sudo su
+$ make
+```
+Una vez se ha compilado el kernel, debemos trasladar el archivo .ko generado a la carpeta /proc, para esto solo bastara usar el siguiente comando
+```sh
+$ insmod m_grupo9.ko
+```
+
+### Compilar y ejecutar api en go
+Para compilar y correr el servidor de go, solo basta con ubicarnos en la carpeta que contiene la clase main.go y ejecutar el comando go run como se muestra a continuación:
+```sh
+$ cd /monitor_memoria_g9
+$ go run main.go
+```
+
+### Carpetas y archivos del Proyecto
 El proyecto se compone de 3 carpetas principales debido a su desgloce de desarrollo, estas son
 - cpu_grupo9
 - m_grupo9
 - monitor_memoria_g9
 
+#### cpu_grupo9
+Contiene los archivos para los modulos kernel que obtienen información de los procesos del cpu
+- Makefile
+    Crea y limpia los modulos del kernel de la clase .c 
+- cpu_grupo9.c
+    Construye y finaliza las estructuras que obtienen los datos del modulo de kernel, utiliza las librerías propias del kernel de linux.
+    Los datos son guardados en formato Json, para poder ser utilizado posteriormente por la api de go
+#### m_grupo9
+Contiene los archivos que construyen los modulos de kernel para obtener la información de la RAM
+- Makefile
+    Crea y limpia los modulos del kernel de la clase .c
+- m_grupo9.c
+  Construye y finaliza la estructura que obtiene los datos del modulo de kernel para la RAM 
+    Los datos son almacenados en formato Json para poder ser utilizados posteriormente por la api de go
