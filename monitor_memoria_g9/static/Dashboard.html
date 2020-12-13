@@ -23,7 +23,7 @@
 </head>
 
 <body id="page-top">
-
+  <div id="app">
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -31,17 +31,28 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
         <div class="sidebar-brand-text mx-3">SISTEMAS OPERATIVOS <sup>2</sup></div>
       </a>
       <hr class="sidebar-divider my-0">
-
+      <div class="sidebar-brand-text mx-3"><i class="fas fa-fw fa-user"></i> {{ nombre }}</div>
+      <hr class="sidebar-divider my-0">
+      <button  
+        v-on:click="cerrar" 
+        type="button"
+        class="btn btn-primary btn-user btn-block"
+        >
+        SALIR
+      </button>
+      
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="dashboard">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Tablero Mando</span></a>
       </li>
@@ -52,7 +63,7 @@
       </div>
       <!-- Nav Item - Charts -->
       <li class="nav-item ">
-        <a class="nav-link" href="GraficaM.html">
+        <a class="nav-link" href="grafica">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Gráficas Memoria RAM</span></a>
       </li>
@@ -350,7 +361,7 @@
           </div>
         </div>
       </div>
-
+    </div>
       <!-- Bootstrap core JavaScript-->
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -501,6 +512,10 @@
         });
 
       </script>
+
+      <!-- development version, includes helpful console warnings -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="js/vueso2.js"></script>
 </body>
 
 </html>
