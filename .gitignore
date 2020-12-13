@@ -21,6 +21,8 @@ m_grupo9/*.mod.c
 m_grupo9/*.mod.o 
 m_grupo9/*.symvers 
 m_grupo9/*.order
+m_grupo9/.*.*.cmd
+m_grupo9/.*.*.*.cmd
 
 cpu_grupo9/*.o
 cpu_grupo9/*.ko
@@ -28,4 +30,6 @@ cpu_grupo9/*.mod
 cpu_grupo9/*.mod.c 
 cpu_grupo9/*.mod.o
 cpu_grupo9/*.symvers
-cpu_grupo9/*.order 
+cpu_grupo9/*.order
+cpu_grupo9/.*.*.cmd
+cpu_grupo9/.*.*.*.cmd
