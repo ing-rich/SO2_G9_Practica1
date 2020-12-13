@@ -82,15 +82,28 @@ El proyecto se compone de 3 carpetas principales debido a su desgloce de desarro
 
 #### cpu_grupo9
 Contiene los archivos para los modulos kernel que obtienen información de los procesos del cpu
-- Makefile
-    Crea y limpia los modulos del kernel de la clase .c 
-- cpu_grupo9.c
-    Construye y finaliza las estructuras que obtienen los datos del modulo de kernel, utiliza las librerías propias del kernel de linux.
-    Los datos son guardados en formato Json, para poder ser utilizado posteriormente por la api de go
+- Makefile - Crea y limpia los modulos del kernel de la clase .c 
+- cpu_grupo9.c - Construye y finaliza las estructuras que obtienen los datos del modulo de kernel, utiliza las librerías propias del kernel de linux.
+Los datos son guardados en formato Json, para poder ser utilizado posteriormente por la api de go
 #### m_grupo9
 Contiene los archivos que construyen los modulos de kernel para obtener la información de la RAM
-- Makefile
-    Crea y limpia los modulos del kernel de la clase .c
-- m_grupo9.c
-  Construye y finaliza la estructura que obtiene los datos del modulo de kernel para la RAM 
-    Los datos son almacenados en formato Json para poder ser utilizados posteriormente por la api de go
+- Makefile - Crea y limpia los modulos del kernel de la clase .c
+- m_grupo9.c - Construye y finaliza la estructura que obtiene los datos del modulo de kernel para la RAM.
+ Los datos son almacenados en formato Json para poder ser utilizados posteriormente por la api de go
+#### monitor_memoria_g9
+En esta carpeta se encuentra las plantillas de las paginas HTML que conforma la interfaz de la aplicación, la parte principal en ella es el archivo
+- main.go
+
+El cual es la clase principal de la api desarrollada en golang, esta se encarga de leer los datos generados por los modulos de kernel, y renderizar las vistas en html para mostrar esta información
+
+Para poder utilizar esta clase es necesario previamente instalar la librería de gorilla/websocket la cual fue utilizada para crear los servicios de la api a través de socket's
+Para instalarla usaremos el siguiente comando
+```sh
+$ go get github.com/gorilla/websocket
+```
+
+En esta clase se encuentran basicamente tres estructuras las cuales se utilizan para contener los datos que se obtienen del cpu, la ram y sus procesos.
+Estas estructuras basicas son
+- UtilizacionR - Contiene los datos de la RAM
+- ListProceso - Contiene los datos generales de los procesos
+- Proceso - Almacena la información de cada proceso individual
