@@ -59,6 +59,8 @@ func main() {
 	// routes
 	http.HandleFunc("/", serveFiles)
 	http.HandleFunc("/ws", serveWs)
+	http.HandleFunc("/grafica", viewGrafica)
+	http.HandleFunc("/dashboard", viewDashboard)
 
 	go enviarDatos()
 	//start the server
@@ -70,8 +72,22 @@ func serveFiles(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Path)
 	p := "." + r.URL.Path
 	if p == "./" {
-		p = "./static/index.html"
+		p = "./static/login.html"
 	}
+	http.ServeFile(w, r, p)
+}
+
+func viewGrafica(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.Path)
+	p := "." + r.URL.Path
+	p = "./static/GraficaM.html"
+	http.ServeFile(w, r, p)
+}
+
+func viewDashboard(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.Path)
+	p := "." + r.URL.Path
+	p = "./static/Dashboard.html"
 	http.ServeFile(w, r, p)
 }
 
