@@ -23,19 +23,19 @@ Después de habernos loggeado se nos desplegara la primera página en la cual en
 
 #### Datos generales de los procesos
 Entre los datos generales de los procesos encontraremos 
-> TOTAL PROCESOS
-> PROCESOS EN EJECUCIÓN
-> PROCESOS SUSPENDIDOS
-> PROCESOS DETENIDOS
-> PROCESOS ZOMBIE
+- TOTAL PROCESOS
+- PROCESOS EN EJECUCIÓN
+- PROCESOS SUSPENDIDOS
+- PROCESOS DETENIDOS
+- PROCESOS ZOMBIE
 
 #### Datos
 En la parte de abajo podremos ver una tabla que contiene una lista de los procesos padre donde nos da más datos de cada uno de ellos, los cuales son
-> PID (Identificador del proceso)
-> Nombre (nombre del proceso)
-> Usuario (usuario que lo ejecuto)
-> Memoria (porcentaje de memoria utilizada por el proceso)
-> Estado (Estado en el que se encuentra el proceso actualmente)
+- PID (Identificador del proceso)
+- Nombre (nombre del proceso)
+- Usuario (usuario que lo ejecuto)
+- Memoria (porcentaje de memoria utilizada por el proceso)
+- Estado (Estado en el que se encuentra el proceso actualmente)
 
 ![N|Tablero](https://github.com/ing-rich/SO2_G9_Practica1/blob/main/imagenes/panelControl.PNG)
 #### Lista de procesos
